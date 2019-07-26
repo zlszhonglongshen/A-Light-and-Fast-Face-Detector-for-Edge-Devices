@@ -1,4 +1,4 @@
-## A Light and Fast Face Detector for Edge Devices
+# A Light and Fast Face Detector for Edge Devices
 
 ## Recent Update
 * `2019.07.25` This repos is first online. Face detection related content is released.
@@ -89,8 +89,8 @@ For ARM based platforms, all cores are used for inference:
 
 Resolution\\Platform |Respberry Pi 3 Model B+ (MNN)|Respberry Pi 3 Model B+ (Tengine)|RK3288 (MNN)|RK3288 (Tengine)
 ---------------------|-------------------|------------------|----------|--------------
-160×120|xxx|xxx|xxx
-640×480|xxx|xxx|xxx
+160×120|xxx|xxx|xxx|xxx
+640×480|xxx|xxx|xxx|xxx
 
 
 ## Getting Started
@@ -108,6 +108,10 @@ We implement the proposed method using MXNet Module API.
   * make sure cv2 links to libjpeg-turbo, not libjpeg.
 
 #### Advanced
+1, float16 int8
+2, pruning
+3, branch cut
+4, 
 
 #### Tips for lower latency 
 
