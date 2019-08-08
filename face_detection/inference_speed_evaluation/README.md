@@ -14,4 +14,7 @@
 
 
 ### Getting Started
-Just modify and run the corresponding python script as your need.
+1. (optional) temporally add mxnet python path to env if mxnet is not globally set
+2. set `eval_with_mxnet_flag` to True to evaluate with mxnet with cudnn, or with tensorrt with cudnn (cannot run both at the same time due to some conflicts)
+3. set `symbol_file_path`, `input_shape` and `real_run_loops`
+4. run the script

@@ -1,7 +1,7 @@
 # A Light and Fast Face Detector for Edge Devices
 
 ## Recent Update
-* `2019.07.25` This repos is first online. Face detection related content is released.
+* `2019.07.25` This repos is first online. Face detection code and trained models are released.
 
 ## Introduction
 This repo releases the source code of paper xxxxx (link to citation). Our paper presents a light and fast face detector (**LFFD**) for edge devices.
@@ -10,14 +10,14 @@ practical, we have deployed it in cloud and edge devices (like NVIDIA Jetson ser
 of LFFD is robust enough to support our applications.
 
 In fact, our method is **_a general detection framework that applicable to one class detection_**, such as face detection, pedestrian detection, 
-head detection, vehicle detection and so on. In general, a object class, whose average ratio of the longer side and the shorter side is 
+head detection, vehicle detection and so on. In general, an object class, whose average ratio of the longer side and the shorter side is 
 less than 5, is appropriate to apply our framework for detection.
 
-#### Performance
+## Accuracy and Latency
 We train LFFD on train set of WIDER FACE benchmark. All methods are evaluated on val/test sets under the SIO schema (please
 refer to the paper for details).
 
-Results on val set of WIDER FACE. The values in () are results from the original papers:
+* Accuracy on val set of WIDER FACE (The values in () are results):
 
 Method|Easy Set|Medium Set|Hard Set
 ------|--------|----------|--------
@@ -27,9 +27,9 @@ S3FD  |0.923(0.937)|0.907(0.924)|0.822(0.852)
 SSH   |0.921(0.931)|0.907(0.921)|0.702(0.845)
 FaceBoxes|0.840    |0.766       |0.395
 FaceBoxes3.2×|0.798|0.802       |0.715
-**LFFD**|0.910     |0.880       |0.780
+**LFFD**|0.910     |0.881       |0.780
 
-Results on test set of WIDER FACE. The values in () are results from the original papers:
+* Accuracy on test set of WIDER FACE (The values in () are results):
 
 Method|Easy Set|Medium Set|Hard Set
 ------|--------|----------|--------
@@ -41,14 +41,25 @@ FaceBoxes|0.839    |0.763       |0.396
 FaceBoxes3.2×|0.791|0.794       |0.715
 **LFFD**|0.896     |0.865       |0.770
 
-In the paper, we use three hardware platforms for latency evaluation: NVIDIA GTX TITAN Xp, NVIDIA TX2 and 
-Rasberry Pi 3 Model B+ (ARM A53). In addition, we also involve some other hardwares: NVIDIA GTX 1060 (laptop), 
-NVIDIA RTX 2080TI, NVIDIA Jetson Nano, RK3288 (ARM A17).
+* Accuracy on FDDB:
 
-We report the time latency of inference only (for NVIDIA hardwares, data transfer is included), excluding
+Method|Discontinuous ROC curves score
+------|--------
+DFSD|0.984
+PyramidBox|0.982
+S3FD|0.981
+SSH|0.977
+FaceBoxes3.2×|0.905
+FaceBoxes|0.960
+LFFD|0.973
+
+In the paper, three hardware platforms are used for latency evaluation: NVIDIA GTX TITAN Xp, NVIDIA TX2 and 
+Rasberry Pi 3 Model B+ (ARM A53). 
+
+We report the latency of inference only (for NVIDIA hardwares, data transfer is included), excluding
 pre-processing and post-processing. The batchsize is set to 1 for all evaluations.
 
-Latency on NVIDIA GTX TITAN Xp (MXNet+CUDA 9.0+CUDNN7.1) presented in the paper:
+* Latency on NVIDIA GTX TITAN Xp (MXNet+CUDA 9.0+CUDNN7.1):
 
 Resolution->|640×480|1280×720|1920×1080|3840×2160
 ------------|-------|--------|---------|---------
@@ -59,62 +70,80 @@ SSH|22.44ms(44.47 FPS)|55.29ms(18.09 FPS)|118.43ms(8.44 FPS)|463.10ms(2.16 FPS)
 FaceBoxes3.2×|6.80ms(147.00 FPS)|12.96ms(77.19 FPS)|25.37ms(39.41 FPS)|111.98ms(8.93 FPS)
 **LFFD**|7.60ms(131.40 FPS)|16.37ms(61.07 FPS)|31.27ms(31.98 FPS)|87.79ms(11.39 FPS)
 
-Latency on NVIDIA TX2 (MXNet+CUDA 9.0+CUDNN7.1) presented in the paper:
+* Latency on NVIDIA TX2 (MXNet+CUDA 9.0+CUDNN7.1) presented in the paper:
 
 Resolution->|160×120|320×240|640×480
 ------------|-------|--------|---------
 FaceBoxes3.2×|11.20ms(89.29 FPS)|19.62ms(50.97 FPS)|72.74ms(13.75 FPS)
 **LFFD**|7.30ms(136.99 FPS)|19.64ms(50.92 FPS)|64.70ms(15.46 FPS)
 
-Latency on Respberry Pi 3 Model B+ (ncnn) presented in the paper:
+* Latency on Respberry Pi 3 Model B+ (ncnn) presented in the paper:
 
 Resolution->|160×120|320×240|640×480
 ------------|-------|--------|---------
 FaceBoxes3.2×|167.20ms(5.98 FPS)|686.19ms(1.46 FPS)|3232.26ms(0.31 FPS)
 **LFFD**|118.45ms(8.44 FPS)|409.19ms(2.44 FPS)|4114.15ms(0.24 FPS)
 
-On NVIDIA platform, TensorRT is the best choice for inference. So, for additional NVIDIA hardwares, 
-we use TensorRT 5.1.5+CUDA 10.0+CUDNN 7.4 for latency evaluation. As for ARM based platform, we plan 
-to use MNN and Tengine for inference. We omit the evaluation for other methods here, LFFD only:
-
-Resolution\\Platform |NVIDIA Jetson Nano |GTX 1060 (laptop) |RTX 2080TI
----------------------|-------------------|------------------|----------
-160×120|xxx|xxx|xxx
-640×480|xxx|xxx|xxx
-1280×720|xxx|xxx|xxx
-1920×1080|xxx|xxx|xxx
-3840×2160|xxx|xxx|xxx
-
-For ARM based platforms, all cores are used for inference:
-
-Resolution\\Platform |Respberry Pi 3 Model B+ (MNN)|Respberry Pi 3 Model B+ (Tengine)|RK3288 (MNN)|RK3288 (Tengine)
----------------------|-------------------|------------------|----------|--------------
-160×120|xxx|xxx|xxx|xxx
-640×480|xxx|xxx|xxx|xxx
-
+> On NVIDIA platform, TensorRT is the best choice for inference. So we conduct additional latency evaluations using TensorRT 
+(**the latency is dramatically decreased!!!**). 
+As for ARM based platform, we plan to use [MNN](https://github.com/alibaba/MNN) and [Tengine](https://github.com/OAID/Tengine) 
+for latency evaluation. Details can be found in the sub-project [face_detection](face_detection/README.md)
 
 ## Getting Started
 We implement the proposed method using MXNet Module API.
 
-#### Prerequirements
+#### Prerequirements (global)
 * Python>=3.5
-* numpy>=1.16
-* MXNet>=1.4 ([install guide](http://mxnet.incubator.apache.org/versions/master/install/index.html?platform=Linux&language=Python&processor=GPU))
-* cv2=3.x (pip3 install opencv-python==3.4.5.20, other version should work as well)
+* numpy>=1.16 (lower versions should work as well, but not tested)
+* MXNet>=1.4.1 ([install guide](http://mxnet.incubator.apache.org/versions/master/install/index.html?platform=Linux&language=Python&processor=GPU))
+* cv2=3.x (pip3 install opencv-python==3.4.5.20, other version should work as well, but not tested)
 
 > Tips: 
   * use MXNet with cudnn.
   * build numpy from source with OpenBLAS. This will improve the training efficiency.
-  * make sure cv2 links to libjpeg-turbo, not libjpeg.
+  * make sure cv2 links to libjpeg-turbo, not libjpeg. This will improve the jpeg decode efficiency.
 
-#### Advanced
-1, float16 int8
-2, pruning
-3, branch cut
-4, 
+#### Sub-directory description
+* [face_detection](face_detection) contains the code of training, evaluation and inference for LFFD,
+the main content of this repo. The trained models of different versions are provided for off-the-shelf deployment.
+* [head_detection](head_detection) contains the trained models for head detection. The models are obtained by the
+proposed general one class detection framework.
+* [pedestrian_detection](pedestrian_detection) contains the trained models for pedestrian detection. The models are obtained by the
+proposed general one class detection framework.
+* [vehicle_detection](vehicle_detection) contains the trained models for vehicle detection. The models are obtained by the
+proposed general one class detection framework.
+* [ChasingTrainFramework_GeneralOneClassDetection](ChasingTrainFramework_GeneralOneClassDetection) is a simple 
+wrapper based on MXNet Module API for general one class detection.
 
-#### Tips for lower latency 
+#### Installation
+1. Download the repo:
+```
+git clone https://github.com/YonghaoHe/A-Light-and-Fast-Face-Detector-for-Edge-Devices.git
+```
+2. Refer to the corresponding sub-project for detailed usage.
 
 ## Citation
+If you benefit from our work in your research and product, please kindly cite the paper
+```
+@inproceedings{LFFD,
+title={LFFD: A Light and Fast Face Detector for Edge Devices},
+author={He, Yonghao and Xu, Dezhong and Wu, Lifang and Jian, Meng and Xiang, Shiming and Pan, Chunhong},
+booktitle={arXiv:xxxx.xxxx},
+year={2019}
+}
+```
 
 ## To Do List
+- [x] face detection
+- [ ] pedestrian detection
+- [ ] head detection
+- [ ] vehicle detection
+
+## Contact
+Yonghao He
+
+E-mails: yonghao.he@ia.ac.cn / yonghao.he@aliyun.com
+
+**If you are interested in this work, any innovative contributions are welcome!!!**
+
+**Internship is open at NLPR, CASIA all the time. Send me your resumes!**
