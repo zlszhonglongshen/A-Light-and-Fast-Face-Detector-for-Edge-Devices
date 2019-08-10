@@ -286,7 +286,6 @@ class Multithread_DataIter_for_CrossEntropy:
                 # resize the original image
                 im = cv2.resize(im, None, fx=target_scale, fy=target_scale)
 
-                # 将选中的bbox放在中间(带有一定的抖动)剪切原图
                 # crop the original image centered on the center of the selected bbox with vibration
                 vibration_length = int(self.receptive_field_stride[scale_idx] / 2)
                 offset_x = random.randint(-vibration_length, vibration_length)
@@ -381,7 +380,6 @@ class Multithread_DataIter_for_CrossEntropy:
                         top_RF_center_index = max(0, math.ceil((temp_bbox_top_bound - self.receptive_field_center_start[i]) / self.receptive_field_stride[i]))
                         bottom_RF_center_index = min(self.feature_map_size_list[i] - 1, math.floor((temp_bbox_bottom_bound - self.receptive_field_center_start[i]) / self.receptive_field_stride[i]))
 
-                        # 目标太小，小于一个感受野中心都没有落在里面，直接忽略这个人脸，当做背景
                         # ignore the face with no RF centers inside
                         if right_RF_center_index < left_RF_center_index or bottom_RF_center_index < top_RF_center_index:
                             continue

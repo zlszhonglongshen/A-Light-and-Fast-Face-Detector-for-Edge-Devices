@@ -112,29 +112,29 @@ class Inference_TensorRT:
         self.num_output_scales = num_output_scales
         self.constant = [i / 2.0 for i in self.receptive_field_list]
 
-        # 初始化log,以及log打印级别
+        # init log
         TRT_LOGGER = trt.Logger(trt.Logger.VERBOSE)
         self.engine = None
         if load_trt_flag:
             with open(temp_trt_file, 'rb') as fin, trt.Runtime(TRT_LOGGER) as runtime:
                 self.engine = runtime.deserialize_cuda_engine(fin.read())
         else:
-            # 声明builder对象
+            # declare builder object
             logging.info('Create TensorRT builder.')
             builder = trt.Builder(TRT_LOGGER)
 
-            # 通过builder对象创建network对象
+            # get network object via builder
             logging.info('Create TensorRT network.')
             network = builder.create_network()
 
-            # 创建ONNX parser对象
+            # create ONNX parser object
             logging.info('Create TensorRT ONNX parser.')
             parser = trt.OnnxParser(network, TRT_LOGGER)
 
             with open(onnx_file_path, 'rb') as onnx_fin:
                 parser.parse(onnx_fin.read())
 
-            # 查看解析过程中是否有错误,如果有错误打印错误
+            # print possible errors
             num_error = parser.num_errors
             if num_error != 0:
                 logging.error('Errors occur while parsing the ONNX file!')
@@ -143,13 +143,13 @@ class Inference_TensorRT:
                     print(temp_error.desc())
                 sys.exit(1)
 
-            # 使用builder构建engine
+            # create engine via builder
             builder.max_batch_size = 1
-            builder.average_find_iterations = 8
+            builder.average_find_iterations = 2
             logging.info('Create TensorRT engine...')
             engine = builder.build_cuda_engine(network)
 
-            # 保存已经获得的engine
+            # serialize engine
             if not os.path.exists('trt_file_cache/'):
                 os.makedirs('trt_file_cache/')
             logging.info('Serialize the engine for fast init.')
@@ -170,7 +170,7 @@ class Inference_TensorRT:
         self.input_shape = self.input_shapes[0]
         logging.info('The required input size: %d, %d, %d' % (self.input_shape[2], self.input_shape[3], self.input_shape[1]))
 
-        # 创建executor
+        # create executor
         self.executor = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings = self.__allocate_buffers(self.engine)
 
@@ -193,7 +193,7 @@ class Inference_TensorRT:
                 outputs.append(HostDeviceMem(host_mem, device_mem))
         return inputs, outputs, bindings
 
-    def do_inference(self, image, score_threshold=0.6, top_k=1000, NMS_threshold=0.2, NMS_flag=True, skip_scale_branch_list=[]):
+    def do_inference(self, image, score_threshold=0.4, top_k=10000, NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[]):
 
         if image.ndim != 3 or image.shape[2] != 3:
             print('Only RGB images are supported.')
@@ -234,11 +234,12 @@ class Inference_TensorRT:
 
             score_map = numpy.squeeze(outputs[i * 2])
 
-            score_map_show = score_map * 255
-            score_map_show[score_map_show < 0] = 0
-            score_map_show[score_map_show > 255] = 255
-            cv2.imshow('score_map' + str(i), cv2.resize(score_map_show.astype(dtype=numpy.uint8), (0, 0), fx=2, fy=2))
-            cv2.waitKey()
+            # show feature maps-------------------------------
+            # score_map_show = score_map * 255
+            # score_map_show[score_map_show < 0] = 0
+            # score_map_show[score_map_show > 255] = 255
+            # cv2.imshow('score_map' + str(i), cv2.resize(score_map_show.astype(dtype=numpy.uint8), (0, 0), fx=2, fy=2))
+            # cv2.waitKey()
 
             bbox_map = numpy.squeeze(outputs[i * 2 + 1])
 
@@ -288,6 +289,8 @@ class Inference_TensorRT:
 
 
 def run_prediction_folder():
+    import sys
+    sys.path.append('..')
     from config_farm import configuration_10_320_20L_5scales_v2 as cfg
 
     debug_folder = './debug_image'
@@ -306,12 +309,12 @@ def run_prediction_folder():
     for file_name in file_name_list:
         im = cv2.imread(os.path.join(debug_folder, file_name))
 
-        bboxes = myInference.do_inference(im, score_threshold=0.6, top_k=10000, NMS_threshold=0.2, NMS_flag=True, skip_scale_branch_list=[])
+        bboxes = myInference.do_inference(im, score_threshold=0.4, top_k=10000, NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[])
         for bbox in bboxes:
             cv2.rectangle(im, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 2)
 
-        if max(im.shape[:2]) > 1600:
-            scale = 1600 / max(im.shape[:2])
+        if max(im.shape[:2]) > 1440:
+            scale = 1440 / max(im.shape[:2])
             im = cv2.resize(im, (0, 0), fx=scale, fy=scale)
         cv2.imshow('im', im)
         cv2.waitKey()

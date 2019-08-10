@@ -5,6 +5,7 @@ import datetime
 import os
 import math
 import logging
+sys.path.append('..')
 sys.path.append('../..')
 from ChasingTrainFramework_GeneralOneClassDetection import logging_GOCD
 from ChasingTrainFramework_GeneralOneClassDetection import train_GOCD
@@ -19,7 +20,7 @@ import mxnet
 init logging
 '''
 param_log_mode = 'w'
-param_log_file_path = '../log/%s_%s.log' % (os.path.basename(__file__)[:-3], datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))  # 构建日志文件路径
+param_log_file_path = '../log/%s_%s.log' % (os.path.basename(__file__)[:-3], datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
 
 '''
     data setting
@@ -52,10 +53,10 @@ param_net_input_width = 640
 param_num_train_loops = 2000000
 
 # the number of threads used for train dataiter
-param_num_thread_train_dataiter = 1
+param_num_thread_train_dataiter = 4
 
 # the number of threads used for val dataiter
-param_num_thread_val_dataiter = 2
+param_num_thread_val_dataiter = 1
 
 # training start index
 param_start_index = 0
@@ -73,10 +74,10 @@ param_num_val_loops = 0
 param_pretrained_model_param_path = ''
 
 # the frequency of display, namely displaying every param_display_interval loops
-param_display_interval = 10
+param_display_interval = 100
 
 # the frequency of metric update, less updates will boost the training speed (should less than param_display_interval)
-param_train_metric_update_frequency = 2
+param_train_metric_update_frequency = 20
 
 # set save prefix (auto)
 param_save_prefix = '../saved_model/' + os.path.basename(__file__)[:-3] + '_' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + \
@@ -124,16 +125,16 @@ param_enable_horizon_flip = True
 param_enable_vertical_flip = False
 
 # trigger for brightness
-param_enable_random_brightness = False
-param_brightness_factors = {'min_factor': 0.5, 'max_factor': 1.}
+param_enable_random_brightness = True
+param_brightness_factors = {'min_factor': 0.5, 'max_factor': 1.5}
 
 # trigger for saturation
-param_enable_random_saturation = False
-param_saturation_factors = {'min_factor': 0.5, 'max_factor': 1.}
+param_enable_random_saturation = True
+param_saturation_factors = {'min_factor': 0.5, 'max_factor': 1.5}
 
 # trigger for contrast
-param_enable_random_contrast = False
-param_contrast_factors = {'min_factor': 0.8, 'max_factor': 1.}
+param_enable_random_contrast = True
+param_contrast_factors = {'min_factor': 0.5, 'max_factor': 1.5}
 
 # trigger for blur
 param_enable_blur = False
@@ -193,9 +194,9 @@ def run():
 
     logging.info('Preparing before training.')
     sys.path.append('..')
-    from ..symbol_farm import symbol_10_320_20L_5scales_v2 as net
+    from symbol_farm import symbol_10_320_20L_5scales_v2 as net
 
-    net_symbol, data_names, label_names = net.get_net_symbol_for_train()
+    net_symbol, data_names, label_names = net.get_net_symbol()
     net_initializer = mxnet.initializer.Xavier()
 
     logging.info('Get net symbol successfully.')

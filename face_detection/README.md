@@ -3,7 +3,7 @@ The subdir includes face detection related codes. Some descriptions has
 been presented in repo README.md. 
 
 ### Recent Update
-* `2019.7.31` model v1 (from the paper) and v2 are added.
+* `2019.8.1` model v1 (in the paper) and v2 are added.
 
 ### Brief Introduction to Model Version
 * v1 - refer to the paper for details
@@ -25,7 +25,7 @@ In fact, v2 is enough for practical use.
 
 * Results on FDDB:
 
-Model Version|Discontinuous ROC curves score
+Model Version|Disc ROC curves score
 ------|--------
 v1|0.973
 v2|0.972
@@ -39,7 +39,7 @@ Model Version|160×120|320×240|640×480|1280×720
 v1|-|-|-|-
 v2|-|-|-|-
 
-* Platform info: NVIDIA Jetson TX2, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x.x
+* Platform info: NVIDIA Jetson TX2, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x (coming soon)
 
 Model Version|160×120|320×240|640×480|1280×720|1920×1080
 -------------|-------|-------|-------|--------|---------
@@ -61,7 +61,7 @@ v1|2.54ms(393.78FPS)|7.28ms(137.28FPS)|20.13ms(49.67FPS)|44.76ms(22.34FPS)|176.5
 v2|1.84ms(544.93FPS)|5.06ms(197.53FPS)|13.97ms(71.60FPS)|30.47ms(32.82FPS)|121.53ms(8.23FPS)
 
 
-* Platform info: ARM A53@1.4GHz, Ubuntu 18.04-64bit, MNN&Tegine
+* Platform info: ARM A53@1.4GHz, Ubuntu 18.04-64bit, MNN&Tegine (coming soon)
 
 > MNN
 

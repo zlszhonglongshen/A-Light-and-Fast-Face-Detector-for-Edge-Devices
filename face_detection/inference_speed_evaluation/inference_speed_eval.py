@@ -4,8 +4,8 @@ sys.path.append('/home/heyonghao/libs/incubator-mxnet/python') # append mxnet py
 sys.path.append('../..')
 import mxnet
 
-eval_with_mxnet_flag = True
-symbol_file_path = '../symbol_farm/symbol_10_560_25L_8scales_s5_v2_deploy.json'
+eval_with_mxnet_flag = False
+symbol_file_path = '../symbol_farm/symbol_10_320_20L_5scales_v2_deploy.json'
 input_shape = (1, 3, 480, 640)  # (1,3,240,320) (1,3,480,640) (1,3,720,1280) (1,3,1080,1920) (1,3,2160,3840)
 
 if eval_with_mxnet_flag:

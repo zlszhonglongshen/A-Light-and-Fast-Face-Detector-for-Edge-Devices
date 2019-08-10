@@ -29,7 +29,7 @@ class TextListAdapter(DataAdapterBaseclass):
         while self.line_counter < len(self.lines):
 
             line = self.lines[self.line_counter].strip('\n').split(',')
-            if line[1] == '1':  # 如果是正样本，需要校验bbox的个数是否一样
+            if line[1] == '1':  # pos sample
                 assert len(line[3:]) == 4 * int(line[2])
 
             im = cv2.imread(line[0], cv2.IMREAD_UNCHANGED)

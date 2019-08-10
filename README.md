@@ -1,5 +1,6 @@
 # A Light and Fast Face Detector for Edge Devices
-
+> **This repo is still under construction.**
+> **The formal release is coming soon!**
 ## Recent Update
 * `2019.07.25` This repos is first online. Face detection code and trained models are released.
 

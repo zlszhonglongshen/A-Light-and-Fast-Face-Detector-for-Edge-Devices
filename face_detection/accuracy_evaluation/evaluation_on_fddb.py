@@ -11,9 +11,8 @@ import mxnet
 from predict import Predict
 
 # set the proper symbol file and model file
-
 symbol_file_path = '../symbol_farm/symbol_10_320_20L_5scales_v2_deploy.json'
-model_file_path = '../saved_model/configuration_10_320_20L_5scales_v2_2019-08-04-23-36-01/train_10_320_20L_5scales_v2_iter_1800000.params'
+model_file_path = '../saved_model/configuration_10_320_20L_5scales_v2/train_10_320_20L_5scales_v2_iter_1800000.params'
 my_predictor = Predict(mxnet=mxnet,
                        symbol_file_path=symbol_file_path,
                        model_file_path=model_file_path,
@@ -26,10 +25,10 @@ my_predictor = Predict(mxnet=mxnet,
                        num_output_scales=cfg.param_num_output_scales)
 
 
-# set fddb root, the path should look like XXXX/originalPics/
-fddb_image_root = '/home/heyonghao/projects/tocreate_LFFD_ICCV2019_FaceDetector/FDDB_evaluation/originalPics'
+# set fddb root, the path should look like XXXX/originalPics
+fddb_image_root = 'XXXX/originalPics'
 # set the list file path, the path should look like XXXX/FDDB-folds/annotatedList.txt
-image_list_file = '/home/heyonghao/projects/tocreate_LFFD_ICCV2019_FaceDetector/FDDB_evaluation/FDDB-folds/FDDB-folds/annotatedList.txt'
+image_list_file = 'XXXX/FDDB-folds/annotatedList.txt'
 result_file_name = './fddb_' + os.path.basename(model_file_path).split('.')[0] + '_result.txt'
 fin = open(image_list_file, 'r')
 fout = open(result_file_name, 'w')

@@ -1,7 +1,7 @@
 ## Inference Speed Evaluation
 
 ### Update History
-* `2019.07.25` inference python code for MXNet-cudnn and TensorRT-cudnn is online.
+* `2019.8.1` inference python code for MXNet-cudnn and TensorRT-cudnn is online.
 
 ### Additional Prerequirements
 * [onnx](https://onnx.ai/) (pip3 install onnx==1.3.0)

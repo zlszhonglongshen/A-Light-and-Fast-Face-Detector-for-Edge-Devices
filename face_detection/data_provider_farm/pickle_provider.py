@@ -5,9 +5,11 @@ This provider accepts an adapter, save dataset in pickle file and load all datas
 import cv2
 import numpy
 import pickle
+import sys
 
+sys.path.append('../..')
 from ChasingTrainFramework_GeneralOneClassDetection.data_provider_base.base_provider import ProviderBaseclass
-from .text_list_adapter import TextListAdapter
+from text_list_adapter import TextListAdapter
 
 
 class PickleProvider(ProviderBaseclass):
@@ -89,27 +91,27 @@ class PickleProvider(ProviderBaseclass):
 
 def write_file():
     data_list_file_path = './data_folder/data_list_2019-05-07-14-47-19.txt'
-    LFPD_adapter = TextListAdapter(data_list_file_path)
+    adapter = TextListAdapter(data_list_file_path)
 
     pickle_file_path = './data_folder/data_2019-05-07-14-47-19.pkl'
     encode_quality = 90
-    LFPD_packer = PickleProvider(pickle_file_path, encode_quality, LFPD_adapter)
-    LFPD_packer.write()
+    packer = PickleProvider(pickle_file_path, encode_quality, adapter)
+    packer.write()
 
 
 def read_file():
     pickle_file_path = './data_folder/data_2019-05-07-14-47-19.pkl'
 
-    LFPD_provider = PickleProvider(pickle_file_path)
-    positive_index = LFPD_provider.positive_index
-    negative_index = LFPD_provider.negative_index
+    provider = PickleProvider(pickle_file_path)
+    positive_index = provider.positive_index
+    negative_index = provider.negative_index
     print("num of positive: %d\nnum of negative: %d" % (len(positive_index), len(negative_index)))
     # all_index = positive_index+negative_index
     import random
     random.shuffle(positive_index)
 
     for i, index in enumerate(positive_index):
-        im, flag, bboxes_numpy = LFPD_provider.read_by_index(index)
+        im, flag, bboxes_numpy = provider.read_by_index(index)
         if isinstance(bboxes_numpy, numpy.ndarray):
             for n in range(bboxes_numpy.shape[0]):
                 cv2.rectangle(im, (bboxes_numpy[n, 0], bboxes_numpy[n, 1]),
@@ -119,7 +121,5 @@ def read_file():
 
 
 if __name__ == '__main__':
-    pass
     write_file()
     # read_file()
-    # generate_rec_20181202()

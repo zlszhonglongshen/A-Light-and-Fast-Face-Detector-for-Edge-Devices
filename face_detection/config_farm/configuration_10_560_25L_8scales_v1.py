@@ -5,6 +5,7 @@ import datetime
 import os
 import math
 import logging
+sys.path.append('..')
 sys.path.append('../..')
 from ChasingTrainFramework_GeneralOneClassDetection import logging_GOCD
 from ChasingTrainFramework_GeneralOneClassDetection import train_GOCD
@@ -26,7 +27,7 @@ param_log_file_path = '../log/%s_%s.log' % (os.path.basename(__file__)[:-3], dat
 '''
 # pick file path for train set
 param_trainset_pickle_file_path = os.path.join(os.path.dirname(__file__), '../data_provider_farm/data_folder/train_data_gt_9.pkl')
-# pick file path for test set
+# pick file path for val set
 param_valset_pickle_file_path = ''
 
 '''
@@ -51,8 +52,8 @@ param_net_input_width = 640
 # the number of train loops
 param_num_train_loops = 2000000
 
-# the number of threads used for train dataiter
-param_num_thread_train_dataiter = 1
+# the number of threads used for train dataiter (4-10)
+param_num_thread_train_dataiter = 4
 
 # the number of threads used for val dataiter
 param_num_thread_val_dataiter = 1
@@ -64,7 +65,7 @@ param_start_index = 0
 param_validation_interval = 10000
 
 # batchsize for validation
-param_val_batch_size = 20
+param_val_batch_size = 0
 
 # the number of loops for each evaluation
 param_num_val_loops = 0
@@ -73,10 +74,10 @@ param_num_val_loops = 0
 param_pretrained_model_param_path = ''
 
 # the frequency of display, namely displaying every param_display_interval loops
-param_display_interval = 10
+param_display_interval = 100
 
 # the frequency of metric update, less updates will boost the training speed (should less than param_display_interval)
-param_train_metric_update_frequency = 2
+param_train_metric_update_frequency = 20
 
 # set save prefix (auto)
 param_save_prefix = '../saved_model/' + os.path.basename(__file__)[:-3] + '_' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + \
@@ -175,9 +176,9 @@ param_bbox_large_gray_list = [math.ceil(v * 1.1) for v in param_bbox_large_list]
 # the RF size of each scale used for normalization, here we use param_bbox_large_list for better regression
 param_receptive_field_list = param_bbox_large_list
 # RF stride for each scale
-param_receptive_field_stride = [4, 8, 16, 32, 64]
+param_receptive_field_stride = [4, 4, 8, 8, 16, 32, 32, 32]
 # the start location of the first RF of each scale
-param_receptive_field_center_start = [3, 7, 15, 31, 63]
+param_receptive_field_center_start = [3, 3, 7, 7, 15, 31, 31, 31]
 
 # the sum of the number of output channels, 2 channels for classification and 4 for bbox regression
 param_num_output_channels = 6
@@ -197,7 +198,7 @@ def run():
 
     logging.info('Preparing before training.')
     sys.path.append('..')
-    from ..symbol_farm import symbol_10_560_25L_8scales_v1 as net
+    from symbol_farm import symbol_10_560_25L_8scales_v1 as net
 
     net_symbol, data_names, label_names = net.get_net_symbol()
     net_initializer = mxnet.initializer.Xavier()
@@ -206,8 +207,8 @@ def run():
 
     # -----------------------------------------------------------------------------------------------
     # get dataiter
-    from ..data_provider_farm.pickle_provider import PickleProvider
-    from ..data_iterator_farm.multithread_dataiter_for_cross_entropy_v1 import Multithread_DataIter_for_CrossEntropy as DataIter
+    from data_provider_farm.pickle_provider import PickleProvider
+    from data_iterator_farm.multithread_dataiter_for_cross_entropy_v1 import Multithread_DataIter_for_CrossEntropy as DataIter
 
     train_data_provider = PickleProvider(param_trainset_pickle_file_path)
     train_dataiter = DataIter(
@@ -282,7 +283,7 @@ def run():
         )
     # ---------------------------------------------------------------------------------------------
     # get metric
-    from ..metric_farm.metric_default import Metric
+    from metric_farm.metric_default import Metric
 
     train_metric = Metric(param_num_output_scales)
     val_metric = None
