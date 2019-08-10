@@ -18,7 +18,7 @@ less than 5, is appropriate to apply our framework for detection.
 We train LFFD on train set of WIDER FACE benchmark. All methods are evaluated on val/test sets under the SIO schema (please
 refer to the paper for details).
 
-* Accuracy on val set of WIDER FACE (The values in () are results):
+* Accuracy on val set of WIDER FACE (The values in () are results from the original papers):
 
 Method|Easy Set|Medium Set|Hard Set
 ------|--------|----------|--------
@@ -30,7 +30,7 @@ FaceBoxes|0.840    |0.766       |0.395
 FaceBoxes3.2×|0.798|0.802       |0.715
 **LFFD**|0.910     |0.881       |0.780
 
-* Accuracy on test set of WIDER FACE (The values in () are results):
+* Accuracy on test set of WIDER FACE (The values in () are results from the original papers):
 
 Method|Easy Set|Medium Set|Hard Set
 ------|--------|----------|--------
