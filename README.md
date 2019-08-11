@@ -5,7 +5,7 @@
 * `2019.07.25` This repos is first online. Face detection code and trained models are released.
 
 ## Introduction
-This repo releases the source code of paper xxxxx (link to citation). Our paper presents a light and fast face detector (**LFFD**) for edge devices.
+This repo releases the source code of paper "[LFFD: A Light and Fast Face Detector for Edge Devices](https://arxiv.org/abs/1904.10633)" . Our paper presents a light and fast face detector (**LFFD**) for edge devices.
 LFFD considerably balances both accuracy and latency, resulting in small model size, fast inference speed while achieving excellent accuracy. In
 practical, we have deployed it in cloud and edge devices (like NVIDIA Jetson series and ARM-based embedding system). The comprehensive performance
 of LFFD is robust enough to support our applications.
@@ -13,6 +13,10 @@ of LFFD is robust enough to support our applications.
 In fact, our method is **_a general detection framework that applicable to one class detection_**, such as face detection, pedestrian detection, 
 head detection, vehicle detection and so on. In general, an object class, whose average ratio of the longer side and the shorter side is 
 less than 5, is appropriate to apply our framework for detection.
+
+Several practical advantages:
+1. large scale coverage, and easy to extend to larger scales by adding more layers without much latency gain.
+2. detect small objects (as small as 10 pixels) in images with extremely large resolution (8K or even larger) in only one inference.
 
 ## Accuracy and Latency
 We train LFFD on train set of WIDER FACE benchmark. All methods are evaluated on val/test sets under the SIO schema (please
@@ -44,7 +48,7 @@ FaceBoxes3.2×|0.791|0.794       |0.715
 
 * Accuracy on FDDB:
 
-Method|Discontinuous ROC curves score
+Method|Disc ROC curves score
 ------|--------
 DFSD|0.984
 PyramidBox|0.982
@@ -129,7 +133,7 @@ If you benefit from our work in your research and product, please kindly cite th
 @inproceedings{LFFD,
 title={LFFD: A Light and Fast Face Detector for Edge Devices},
 author={He, Yonghao and Xu, Dezhong and Wu, Lifang and Jian, Meng and Xiang, Shiming and Pan, Chunhong},
-booktitle={arXiv:xxxx.xxxx},
+booktitle={arXiv:1904.10633},
 year={2019}
 }
 ```

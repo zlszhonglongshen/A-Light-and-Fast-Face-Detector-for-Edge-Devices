@@ -32,7 +32,7 @@ v2|0.972
 
 
 ### Inference Latency
-* Platform info: NVIDIA Jetson NANO, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x
+* Platform info: NVIDIA Jetson NANO, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x (coming soon)
 
 Model Version|160×120|320×240|640×480|1280×720
 -------------|-------|-------|-------|--------
