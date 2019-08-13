@@ -1,5 +1,5 @@
 ## Face Detection
-The subdir includes face detection related codes. Some descriptions has 
+This subdir includes face detection related codes. Some descriptions has 
 been presented in repo README.md. 
 
 ### Recent Update
@@ -32,16 +32,16 @@ v2|0.972
 
 
 ### Inference Latency
-* Platform info: NVIDIA Jetson NANO, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x (coming soon)
+* Platform info: NVIDIA Jetson NANO, CUDA 10.0, CUDNN 7.5.0, TensorRT 5.1.6
 
-Model Version|160×120|320×240|640×480|1280×720
+Model Version|160×140|320×240|640×480|1280×720
 -------------|-------|-------|-------|--------
-v1|-|-|-|-
-v2|-|-|-|-
+v1|12.94ms(77.26FPS)|33.66ms(29.70FPS)|113.88ms(8.78FPS)|326.91ms(3.06FPS)
+v2|10.48ms(95.39FPS)|23.28ms(42.96FPS)|77.56ms(12.89FPS)|222.30ms(4.50FPS)
 
 * Platform info: NVIDIA Jetson TX2, CUDA xx.x, CUDNN x.x.x, TensorRT x.x.x (coming soon)
 
-Model Version|160×120|320×240|640×480|1280×720|1920×1080
+Model Version|160×140|320×240|640×480|1280×720|1920×1080
 -------------|-------|-------|-------|--------|---------
 v1|-|-|-|-|-
 v2|-|-|-|-|-
@@ -65,14 +65,30 @@ v2|1.84ms(544.93FPS)|5.06ms(197.53FPS)|13.97ms(71.60FPS)|30.47ms(32.82FPS)|121.5
 
 > MNN
 
-Model Version|160×120|320×240|640×480|1280×720|1920×1080
+Model Version|160×140|320×240|640×480|1280×720|1920×1080
 -------------|-------|-------|-------|--------|---------
 v1|-|-|-|-|-
 v2|-|-|-|-|-
 
 > Tegine
 
-Model Version|160×120|320×240|640×480|1280×720|1920×1080
+Model Version|160×140|320×240|640×480|1280×720|1920×1080
+-------------|-------|-------|-------|--------|---------
+v1|-|-|-|-|-
+v2|-|-|-|-|-
+
+* Platform info: Intel Movidius NCS1 and NCS2  (in the future)
+
+> NCS1
+
+Model Version|160×140|320×240|640×480|1280×720|1920×1080
+-------------|-------|-------|-------|--------|---------
+v1|-|-|-|-|-
+v2|-|-|-|-|-
+
+> NCS2
+
+Model Version|160×140|320×240|640×480|1280×720|1920×1080
 -------------|-------|-------|-------|--------|---------
 v1|-|-|-|-|-
 v2|-|-|-|-|-
