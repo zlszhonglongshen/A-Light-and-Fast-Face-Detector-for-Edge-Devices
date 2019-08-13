@@ -3,6 +3,7 @@ import sys
 import os
 import numpy
 import cv2
+import time
 
 
 # empty data batch class for dynamical properties
@@ -155,12 +156,15 @@ class Predict(object):
 
         data_batch = DataBatch()
         data_batch.data = [self.mxnet.ndarray.array(input_image, self.ctx)]
-
+        
+        tic = time.time()
         self.module.forward(data_batch=data_batch, is_train=False)
         results = self.module.get_outputs()
         outputs = []
         for output in results:
             outputs.append(output.asnumpy())
+        toc = time.time()
+        infer_time = (toc - tic) * 1000
 
         for i in range(self.num_output_scales):
             if i in skip_scale_branch_list:
@@ -215,9 +219,9 @@ class Predict(object):
             for i in range(final_bboxes.shape[0]):
                 final_bboxes_.append((final_bboxes[i, 0], final_bboxes[i, 1], final_bboxes[i, 2], final_bboxes[i, 3], final_bboxes[i, 4]))
 
-            return final_bboxes_
+            return final_bboxes_, infer_time
         else:
-            return bbox_collection_numpy
+            return bbox_collection_numpy, infer_time
 
 
 def run_prediction_pickle():
