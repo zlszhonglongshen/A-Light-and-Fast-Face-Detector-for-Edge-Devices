@@ -134,3 +134,12 @@ may not definitely decrease, and it depends on the hardware platform. TensorRT s
 (we may add this in the future)
 
 
+### Data Download
+We have packed the training data of WIDERFACE train set. In the data, the faces less than 8 pixels are ignored, and some pure negative 
+images cropped from the training images are also added. We provide three ways to download the packed data:
+* [Baidu Yunpan](https://pan.baidu.com/s/1a8Wk4GNkfPYbKAFSrZzFIQ) (pwd:e7bv)
+* [MS OneDrive](https://1drv.ms/u/s!Av9h0YMgxdaSgwiP4nKDasu4m73J?e=v5UfWQ)
+* [Google Drive](https://drive.google.com/open?id=1O3nJ6mQKD_sdFpfXmYoK7xnTUg3To7kO)
+
+After you download the data, you can put it anywhere. Remember to set `param_trainset_pickle_file_path` variable in the configuration file. (we 
+usually put the data into the folder: `./data_provider_farm/data_folder/`)
