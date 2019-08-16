@@ -1,9 +1,8 @@
 # A Light and Fast Face Detector for Edge Devices
-> **This repo is still under construction.**
-> **The formal release is coming soon!**
+
 ## Recent Update
 * `2019.07.25` This repos is first online. Face detection code and trained models are released.
-
+* `2019.08.15` This repos is formally released. Any advice and error reports are sincerely welcome.
 ## Introduction
 This repo releases the source code of paper "[LFFD: A Light and Fast Face Detector for Edge Devices](https://arxiv.org/abs/1904.10633)" . Our paper presents a light and fast face detector (**LFFD**) for edge devices.
 LFFD considerably balances both accuracy and latency, resulting in small model size, fast inference speed while achieving excellent accuracy. In
@@ -143,6 +142,7 @@ year={2019}
 - [ ] pedestrian detection
 - [ ] head detection
 - [ ] vehicle detection
+- [ ] PyTorch version
 
 ## Contact
 Yonghao He

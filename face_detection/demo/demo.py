@@ -5,6 +5,7 @@ import cv2
 import time
 import mxnet as mx
 import numpy as np
+
 sys.path.append("..")
 from accuracy_evaluation import predict
 
@@ -45,15 +46,15 @@ def main():
         raise TypeError('Unsupported LFFD Version.')
 
     face_predictor = predict.Predict(mxnet=mx,
-                           symbol_file_path=symbol_file_path,
-                           model_file_path=model_file_path,
-                           ctx=ctx,
-                           receptive_field_list=cfg.param_receptive_field_list,
-                           receptive_field_stride=cfg.param_receptive_field_stride,
-                           bbox_small_list=cfg.param_bbox_small_list,
-                           bbox_large_list=cfg.param_bbox_large_list,
-                           receptive_field_center_start=cfg.param_receptive_field_center_start,
-                           num_output_scales=cfg.param_num_output_scales)
+                                     symbol_file_path=symbol_file_path,
+                                     model_file_path=model_file_path,
+                                     ctx=ctx,
+                                     receptive_field_list=cfg.param_receptive_field_list,
+                                     receptive_field_stride=cfg.param_receptive_field_stride,
+                                     bbox_small_list=cfg.param_bbox_small_list,
+                                     bbox_large_list=cfg.param_bbox_large_list,
+                                     receptive_field_center_start=cfg.param_receptive_field_center_start,
+                                     num_output_scales=cfg.param_num_output_scales)
 
     if args.mode == 'image':
         data_folder = args.data
@@ -64,7 +65,7 @@ def main():
             im = cv2.imread(os.path.join(data_folder, file_name))
 
             bboxes, infer_time = face_predictor.predict(im, resize_scale=1, score_threshold=0.6, top_k=10000, \
-                                            NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[])
+                                                        NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[])
 
             for bbox in bboxes:
                 cv2.rectangle(im, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 2)
@@ -74,7 +75,7 @@ def main():
             #     im = cv2.resize(im, (0, 0), fx=scale, fy=scale)
             cv2.imshow('im', im)
             cv2.waitKey(5000)
-            cv2.imwrite(os.path.join(data_folder, file_name.replace('.jpg','_result.png')), im)
+            cv2.imwrite(os.path.join(data_folder, file_name.replace('.jpg', '_result.png')), im)
     elif args.mode == 'video':
         # win_name = 'LFFD DEMO'
         # cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
@@ -82,12 +83,12 @@ def main():
         file_name_list = [file_name for file_name in os.listdir(data_folder) \
                           if file_name.lower().endswith('mp4')]
         for file_name in file_name_list:
-            out_file = os.path.join(data_folder, file_name.replace('.mp4','_v2_gpu_result.avi'))
+            out_file = os.path.join(data_folder, file_name.replace('.mp4', '_v2_gpu_result.avi'))
             cap = cv2.VideoCapture(os.path.join(data_folder, file_name))
             vid_writer = cv2.VideoWriter(out_file, \
-                            cv2.VideoWriter_fourcc('M','J','P','G'), 60, \
-                            (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), \
-                            int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+                                         cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 60, \
+                                         (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), \
+                                          int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
             while cv2.waitKey(1) < 0:
                 ret, frame = cap.read()
                 if ret:
@@ -101,7 +102,7 @@ def main():
 
                 tic = time.time()
                 bboxes, infer_time = face_predictor.predict(frame, resize_scale=1, score_threshold=0.6, top_k=10000, \
-                                                NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[])
+                                                            NMS_threshold=0.4, NMS_flag=True, skip_scale_branch_list=[])
                 toc = time.time()
                 detect_time = (toc - tic) * 1000
 
@@ -116,7 +117,7 @@ def main():
                 cv2.putText(frame, input_resolution, (5, 65), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                 infer_time_info = 'Inference time: %.2f ms' % (infer_time)
                 cv2.putText(frame, infer_time_info, (5, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-                infer_speed = 'Inference speed: %.2f FPS' % (1000/infer_time)
+                infer_speed = 'Inference speed: %.2f FPS' % (1000 / infer_time)
                 cv2.putText(frame, infer_speed, (5, 135), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                 face_num_info = 'Face num: %d' % (face_num)
                 cv2.putText(frame, face_num_info, (5, 170), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
@@ -131,6 +132,7 @@ def main():
             cv2.destroyAllWindows()
     else:
         raise TypeError('Unsupported File Format.')
+
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 import logging
 import numpy
 import sys
-sys.path.append('/home/heyonghao/libs/incubator-mxnet/python')
+sys.path.append('/home/heyonghao/libs/incubator-mxnet/python')  # add mxnet python path if need
 import mxnet
 from mxnet.contrib import onnx as onnx_mxnet
 from onnx import checker
@@ -11,6 +11,7 @@ import onnx
 def generate_onnx_file():
     logging.basicConfig(level=logging.INFO)
 
+    # set the proper symbol path, param path and onnx path
     symbol_path = '../symbol_farm/symbol_10_320_20L_5scales_v2_deploy.json'
     param_path = '../saved_model/configuration_10_320_20L_5scales_v2/train_10_320_20L_5scales_v2_iter_1800000.params'
     onnx_path = './onnx_files/v2.onnx'
@@ -22,7 +23,7 @@ def generate_onnx_file():
         tp, name = k.split(':', 1)
         net_params.update({name: v})
 
-    input_shape = (1, 3, 480, 640)
+    input_shape = (1, 3, 480, 640)  # CAUTION: in TensorRT, the input size cannot be changed dynamically, so you must set it here.
 
     onnx_mxnet.export_model(net_symbol, net_params, [input_shape], numpy.float32, onnx_path, verbose=True)
 
