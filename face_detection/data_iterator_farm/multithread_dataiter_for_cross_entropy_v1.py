@@ -191,7 +191,7 @@ class Multithread_DataIter_for_CrossEntropy:
                 if self.enable_random_brightness and random.random() > 0.5:
                     im_input = Augmentor.brightness(im_input, **self.brightness_params)
                 if self.enable_random_saturation and random.random() > 0.5:
-                    im_input = Augmentor.brightness(im_input, **self.saturation_params)
+                    im_input = Augmentor.saturation(im_input, **self.saturation_params)
                 if self.enable_random_contrast and random.random() > 0.5:
                     im_input = Augmentor.contrast(im_input, **self.contrast_params)
                 if self.enable_blur and random.random() > 0.5:
@@ -319,7 +319,7 @@ class Multithread_DataIter_for_CrossEntropy:
                 if self.enable_random_brightness and random.random() > 0.5:
                     im_input = Augmentor.brightness(im_input, **self.brightness_params)
                 if self.enable_random_saturation and random.random() > 0.5:
-                    im_input = Augmentor.brightness(im_input, **self.saturation_params)
+                    im_input = Augmentor.saturation(im_input, **self.saturation_params)
                 if self.enable_random_contrast and random.random() > 0.5:
                     im_input = Augmentor.contrast(im_input, **self.contrast_params)
                 if self.enable_blur and random.random() > 0.5:

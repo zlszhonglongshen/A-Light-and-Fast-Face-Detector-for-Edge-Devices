@@ -115,7 +115,7 @@ Second, we present a common procedure for running the code (taking v1 as an exam
 1. prepare symbol net `symbol_farm/symbol_10_560_25L_8scales_v1.py`
 2. (optional) check the latency by using `inference_speed_evaluation/inference_speed_eval.py`
 3. prepare the training data by using the code in `data_provider_farm`. We provide a packed 
-training data of WIDERFACE trainset. Please download from  xxxx or xxxx.
+training data of WIDERFACE trainset. Please download from **Data Download**.
 4. adjust the code around the line 241 in `data_iterator_farm/multithread_dataiter_for_cross_entropy_vx`.
 This segment of code may vary task to task.
 5. set the variables in configuration py script in `config_farm` and run.
