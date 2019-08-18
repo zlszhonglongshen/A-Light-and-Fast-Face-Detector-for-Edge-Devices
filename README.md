@@ -4,7 +4,7 @@
 * `2019.07.25` This repos is first online. Face detection code and trained models are released.
 * `2019.08.15` This repos is formally released. Any advice and error reports are sincerely welcome.
 ## Introduction
-This repo releases the source code of paper "[LFFD: A Light and Fast Face Detector for Edge Devices](https://arxiv.org/abs/1904.10633)" . Our paper presents a light and fast face detector (**LFFD**) for edge devices.
+This repo releases the source code of paper "[LFFD: A Light and Fast Face Detector for Edge Devices](https://arxiv.org/abs/1904.10633)". Our paper presents a light and fast face detector (**LFFD**) for edge devices.
 LFFD considerably balances both accuracy and latency, resulting in small model size, fast inference speed while achieving excellent accuracy. In
 practical, we have deployed it in cloud and edge devices (like NVIDIA Jetson series and ARM-based embedding system). The comprehensive performance
 of LFFD is robust enough to support our applications.
@@ -91,7 +91,7 @@ FaceBoxes3.2×|167.20ms(5.98 FPS)|686.19ms(1.46 FPS)|3232.26ms(0.31 FPS)
 > On NVIDIA platform, TensorRT is the best choice for inference. So we conduct additional latency evaluations using TensorRT 
 (**the latency is dramatically decreased!!!**). 
 As for ARM based platform, we plan to use [MNN](https://github.com/alibaba/MNN) and [Tengine](https://github.com/OAID/Tengine) 
-for latency evaluation. Details can be found in the sub-project [face_detection](face_detection/README.md)
+for latency evaluation. Details can be found in the sub-project [face_detection](face_detection/README.md).
 
 ## Getting Started
 We implement the proposed method using MXNet Module API.
