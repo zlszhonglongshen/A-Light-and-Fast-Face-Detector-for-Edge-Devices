@@ -67,7 +67,7 @@ class Augmentor(object):
     def binarization(image, block_size=5, C=10):
         """
         convert input image to binary image
-        cv2.adaptiveThreshold is used, for detailed information, refer to opencv docs
+        cv2.adaptiveThreshold is used, for detailed information, refer to opencv_cuda docs
         :param image:
         :return:
         """
